@@ -11,7 +11,6 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import java.util.UUID;
@@ -33,16 +32,16 @@ public class HelloMessageListener {
 
     }
 
-    @JmsListener(destination = JmsConfig.MY_SEND_RCY_QUEUE)
+    @JmsListener(destination = JmsConfig.MY_SEND_RCV_QUEUE)
     public void listenForHello(@Payload HelloWorldMessage helloWorldMessage,
-                       @Headers MessageHeaders headers,
-                       Message message) throws JMSException {
+                               @Headers MessageHeaders headers, Message jmsMessage,
+                               org.springframework.messaging.Message springMessage) throws JMSException {
         HelloWorldMessage payloadMsg = HelloWorldMessage
                 .builder()
                 .id(UUID.randomUUID())
                 .message("World")
                 .build();
-        jmsTemplate.convertAndSend(message.getJMSReplyTo(), payloadMsg);
+        jmsTemplate.convertAndSend(jmsMessage.getJMSReplyTo(), payloadMsg);
 
 
     }

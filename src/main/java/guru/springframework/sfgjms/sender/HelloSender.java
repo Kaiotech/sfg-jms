@@ -43,7 +43,7 @@ public class HelloSender {
                 .message("Hello")
                 .build();
 
-        Message receivedMsg = jmsTemplate.sendAndReceive(JmsConfig.MY_SEND_RCY_QUEUE, new MessageCreator() {
+        Message receivedMsg = jmsTemplate.sendAndReceive(JmsConfig.MY_SEND_RCV_QUEUE, new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {
                 Message helloMessage = null;
